@@ -1,6 +1,8 @@
 const GlobalFeed = () => {
   return (
-    <div>Global Feed</div>
+    <div>
+      <span>Global Feed</span>
+    </div>
   );
 };
 
