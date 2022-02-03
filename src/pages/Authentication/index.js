@@ -1,48 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import axios from 'axios';
+import useFetch from '../../hooks/useFetch';
 
 const Authentication = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [{ isLoading }, doFetch] = useFetch('users/login');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setIsSubmitting(true);
-    console.log('values', email, password);
-  };
-
-  useEffect(() => {
-    if (!isSubmitting) {
-      return;
-    }
-
-    console.log('Effect!');
-
-    axios.post('http://localhost:3000/api/users/login', {
-      user: {
-        email: 'fadi@email.com',
-        password: 'somepassword',
+    doFetch({
+      method: 'POST',
+      data: {
+        user: {
+          email: 'fadi@email.com',
+          password: 'somepassword',
+        },
       },
-    })
-      .then((res) => {
-        setIsSubmitting(false);
-        console.log('res', res);
-      })
-      .catch((err) => {
-        setIsSubmitting(false);
-        console.log('err', err);
-      });
-
-    document.title = email;
-  });
+    });
+  };
 
   return (
     <Grid
@@ -78,13 +59,13 @@ const Authentication = () => {
           size="large"
           sx={{ mt: 3 }}
           type="submit"
-          disabled={isSubmitting}
+          disabled={isLoading}
         >
           Login
         </Button>
       </Box>
     </Grid>
   );
-}
+};
 
 export default Authentication;
