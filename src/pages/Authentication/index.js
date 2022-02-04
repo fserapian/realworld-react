@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+
 import useFetch from '../../hooks/useFetch';
 
-const Authentication = () => {
+const Authentication = ({ name }) => {
+  const isLogin = name === 'login';
+  const title = isLogin ? 'Sign in' : 'Sign up';
+  const titleText = isLogin ? 'Need an account?' : 'Have an account?';
+  const titleLink = isLogin ? '/register' : '/login';
+  const apiUrl = isLogin ? 'users/login' : 'users';
+
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [{ isLoading }, doFetch] = useFetch('users/login');
+  const [{ isLoading }, doFetch] = useFetch(apiUrl);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const user = isLogin
+      ? { email, password }
+      : { username, email, password };
+
     doFetch({
       method: 'POST',
       data: {
-        user: {
-          email: 'fadi@email.com',
-          password: 'somepassword',
-        },
+        user,
       },
     });
   };
@@ -34,19 +45,31 @@ const Authentication = () => {
       sx={{ mt: 4 }}
     >
       <Typography component="h2" variant="h2">
-        Sign in
+        {title}
+      </Typography>
+      <Typography component="p" variant="p">
+        <Link to={titleLink}>{titleText}</Link>
       </Typography>
       <Box component="form" sx={{ mt: 3, width: 500 }} onSubmit={handleSubmit}>
         <Stack spacing={2}>
+          {!isLogin && (
+            <TextField
+              type="text"
+              label="Username"
+              variant="outlined"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          )}
           <TextField
-            id="outlined-basic"
+            type="text"
             label="Email"
             variant="outlined"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
-            id="outlined-basic"
+            type="password"
             label="Password"
             variant="outlined"
             value={password}
@@ -61,7 +84,7 @@ const Authentication = () => {
           type="submit"
           disabled={isLoading}
         >
-          Login
+          {title}
         </Button>
       </Box>
     </Grid>
