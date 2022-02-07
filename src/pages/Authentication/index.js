@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -9,8 +9,8 @@ import Button from '@mui/material/Button';
 
 import useFetch from '../../hooks/useFetch';
 
-const Authentication = ({ name }) => {
-  const isLogin = name === 'login';
+const Authentication = ({ auth }) => {
+  const isLogin = auth === 'login';
   const title = isLogin ? 'Sign in' : 'Sign up';
   const titleText = isLogin ? 'Need an account?' : 'Have an account?';
   const titleLink = isLogin ? '/register' : '/login';
@@ -19,7 +19,9 @@ const Authentication = ({ name }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [{ isLoading }, doFetch] = useFetch(apiUrl);
+  const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
+  const [{ isLoading, response }, doFetch] = useFetch(apiUrl);
+  let navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,6 +37,20 @@ const Authentication = ({ name }) => {
       },
     });
   };
+
+  useEffect(() => {
+    if (!response) {
+      return;
+    }
+
+    localStorage.setItem('key', response.user.token);
+    setIsSuccessfulSubmit(true);
+  }, [response]);
+
+  if (isSuccessfulSubmit) {
+    console.log('redirecting...');
+    navigate('/');
+  }
 
   return (
     <Grid
