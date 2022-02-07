@@ -22,10 +22,8 @@ const Authentication = ({ auth }) => {
   const [password, setPassword] = useState('');
   const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
   const [{ isLoading, response }, doFetch] = useFetch(apiUrl);
-  const [token, setToken] = useLocalStorage('token');
+  const [setToken] = useLocalStorage('token');
   let navigate = useNavigate();
-
-  console.log('token', token);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,7 +47,7 @@ const Authentication = ({ auth }) => {
 
     setToken(response.user.token);
     setIsSuccessfulSubmit(true);
-  }, [response]);
+  }, [response, setToken]);
 
   if (isSuccessfulSubmit) {
     console.log('redirecting...');

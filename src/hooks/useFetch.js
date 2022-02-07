@@ -30,7 +30,7 @@ export default (url) => {
         console.log('err', err);
         setError(err.response.data);
       });
-  }, [isLoading]);
+  }, [isLoading, url, options]);
 
   return [{ isLoading, response, error }, doFetch];
 };
