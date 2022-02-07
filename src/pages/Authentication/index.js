@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import useFetch from '../../hooks/useFetch';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 const Authentication = ({ auth }) => {
   const isLogin = auth === 'login';
@@ -21,7 +22,10 @@ const Authentication = ({ auth }) => {
   const [password, setPassword] = useState('');
   const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
   const [{ isLoading, response }, doFetch] = useFetch(apiUrl);
+  const [token, setToken] = useLocalStorage('token');
   let navigate = useNavigate();
+
+  console.log('token', token);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +47,7 @@ const Authentication = ({ auth }) => {
       return;
     }
 
-    localStorage.setItem('key', response.user.token);
+    setToken(response.user.token);
     setIsSuccessfulSubmit(true);
   }, [response]);
 
