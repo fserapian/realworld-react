@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 
 import useFetch from '../../hooks/useFetch';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import { CurrentUserContext } from '../../contexts/currentUser';
 
 const Authentication = ({ auth }) => {
   const isLogin = auth === 'login';
@@ -23,9 +24,11 @@ const Authentication = ({ auth }) => {
   const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
   const [{ isLoading, response }, doFetch] = useFetch(apiUrl);
   const [token, setToken] = useLocalStorage('token');
+  const [currentUserState, setCurrentUserState] = useContext(CurrentUserContext);
+
   let navigate = useNavigate();
 
-  console.log('token', token);
+  console.log('currentUserState', currentUserState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,6 +52,12 @@ const Authentication = ({ auth }) => {
 
     setToken(response.user.token);
     setIsSuccessfulSubmit(true);
+    setCurrentUserState((state) => ({
+      ...state,
+      isLoading: false,
+      isLoggedIn: true,
+      currentUser: response.user,
+    }));
   }, [response, setToken]);
 
   if (isSuccessfulSubmit) {

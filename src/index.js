@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import RoutePaths from './routes';
 import Topbar from './components/topbar';
+import { CurrentUserProvider } from './contexts/currentUser';
 
 const App = () => {
   return (
-    <Router>
-      <Topbar />
-      <RoutePaths />
-    </Router>
+    <CurrentUserProvider>
+      <Router>
+        <Topbar />
+        <RoutePaths />
+      </Router>
+    </CurrentUserProvider>
   );
 };
 
