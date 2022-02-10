@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default (url) => {
-  const baseUrl = 'http://localhost:3000/api';
+  const baseUrl = 'http://localhost:3000';
 
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);

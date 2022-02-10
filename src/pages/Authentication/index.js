@@ -22,8 +22,10 @@ const Authentication = ({ auth }) => {
   const [password, setPassword] = useState('');
   const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
   const [{ isLoading, response }, doFetch] = useFetch(apiUrl);
-  const [setToken] = useLocalStorage('token');
+  const [token, setToken] = useLocalStorage('token');
   let navigate = useNavigate();
+
+  console.log('token', token);
 
   const handleSubmit = (e) => {
     e.preventDefault();

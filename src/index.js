@@ -8,12 +8,10 @@ import Topbar from './components/topbar';
 
 const App = () => {
   return (
-    <div className="App">
-      <Router>
-        <Topbar />
-        <RoutePaths />
-      </Router>
-    </div>
+    <Router>
+      <Topbar />
+      <RoutePaths />
+    </Router>
   );
 };
 
