@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import useFetch from '../../hooks/useFetch';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { CurrentUserContext } from '../../contexts/currentUser';
+import BackendErrorMessages from './components/backendErrorMessages';
 
 const Authentication = ({ auth }) => {
   const isLogin = auth === 'login';
@@ -22,20 +23,17 @@ const Authentication = ({ auth }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
-  const [{ isLoading, response }, doFetch] = useFetch(apiUrl);
+  const [{ isLoading, response, error }, doFetch] = useFetch(apiUrl);
   const [token, setToken] = useLocalStorage('token');
-  const [currentUserState, setCurrentUserState] = useContext(CurrentUserContext);
+  const [currentUserState, setCurrentUserState] =
+    useContext(CurrentUserContext);
 
   let navigate = useNavigate();
-
-  console.log('currentUserState', currentUserState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const user = isLogin
-      ? { email, password }
-      : { username, email, password };
+    const user = isLogin ? { email, password } : { username, email, password };
 
     doFetch({
       method: 'POST',
@@ -67,11 +65,11 @@ const Authentication = ({ auth }) => {
 
   return (
     <Grid
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      sx={{ mt: 4 }}
+    container
+    spacing={0}
+    direction="column"
+    alignItems="center"
+    sx={{ mt: 4 }}
     >
       <Typography component="h2" variant="h2">
         {title}
@@ -79,6 +77,9 @@ const Authentication = ({ auth }) => {
       <Typography component="p" variant="p">
         <Link to={titleLink}>{titleText}</Link>
       </Typography>
+
+      {error && <BackendErrorMessages errorMessages={error.message} />}
+
       <Box component="form" sx={{ mt: 3, width: 500 }} onSubmit={handleSubmit}>
         <Stack spacing={2}>
           {!isLogin && (
