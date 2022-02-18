@@ -24,9 +24,8 @@ const Authentication = ({ auth }) => {
   const [password, setPassword] = useState('');
   const [isSuccessfulSubmit, setIsSuccessfulSubmit] = useState(false);
   const [{ isLoading, response, error }, doFetch] = useFetch(apiUrl);
-  const [token, setToken] = useLocalStorage('token');
-  const [currentUserState, setCurrentUserState] =
-    useContext(CurrentUserContext);
+  const [, setToken] = useLocalStorage('token');
+  const [, setCurrentUserState] = useContext(CurrentUserContext);
 
   let navigate = useNavigate();
 
@@ -56,7 +55,7 @@ const Authentication = ({ auth }) => {
       isLoggedIn: true,
       currentUser: response.user,
     }));
-  }, [response, setToken]);
+  }, [response, setToken, setCurrentUserState]);
 
   if (isSuccessfulSubmit) {
     console.log('redirecting...');
