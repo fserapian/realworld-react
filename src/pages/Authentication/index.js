@@ -74,7 +74,7 @@ const Authentication = ({ auth }) => {
         {title}
       </Typography>
       <Typography component="p" variant="p">
-        <Link to={titleLink}>{titleText}</Link>
+        <Link to={titleLink} style={{ color: '#777', textDecoration: 'none' }}>{titleText}</Link>
       </Typography>
 
       {error && <BackendErrorMessages errorMessages={error.message} />}

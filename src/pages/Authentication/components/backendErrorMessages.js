@@ -8,7 +8,7 @@ const BackendErrorMessages = ({ errorMessages }) => {
       <AlertTitle>Incorrect data provided</AlertTitle>
       <ul style={{ padding: 0 }}>
         {errorMessages && errorMessages.map((msg) => (
-          <li style={{ listStyle: 'none', marginBottom: '5px' }}>{msg}</li>
+          <li key={msg} style={{ listStyle: 'none', marginBottom: '5px' }}>{msg}</li>
         ))}
       </ul>
     </Alert>

@@ -9,8 +9,6 @@ const CurrentUserChecker = ({ children }) => {
   const [, setCurrentUserState] = useContext(CurrentUserContext);
   const [token] = useLocalStorage('token');
 
-  console.log('response', response);
-
   useEffect(() => {
     if (!token) {
       setCurrentUserState((state) => ({
