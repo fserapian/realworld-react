@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import useFetch from '../hooks/useFetch';
 
 const PopularTags = () => {
-  const [tags, setTags] = useState([]);
+  const [{ isLoading, response, error }, doFetch] = useFetch('tags');
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3000/tags')
-      .then((res) => {
-        console.log('res', res.data.tags);
-        setTags(res.data.tags);
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
+    doFetch();
   }, []);
 
   return (
     <ul>
-      {tags.map((tag, index) => (
-        <li key={index}>{tag}</li>
-      ))}
+      {isLoading && <h2>Loading....</h2>}
+      {error && <h2>Something went wrong</h2>}
+      {response && response.tags.map((tag) => {
+        return (
+          <div key={tag}>{tag}</div>
+        );
+      })}
     </ul>
   );
 };
