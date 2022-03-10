@@ -45,11 +45,12 @@ const Feed = ({ articles }) => {
               <Button size="small">Learn More</Button>
             </Link>
             <Box sx={{ display: 'flex', gap: '1rem' }}>
-              {article.tagList.map((tag) => (
+              {article.tagList.map((tag, index) => (
                 <Paper
                   elevation={0}
                   variant="outlined"
                   xs={{ padding: '1rem' }}
+                  key={index}
                 >
                   {tag}
                 </Paper>

@@ -20,8 +20,6 @@ const Topbar = () => {
   const [currentUserState, setCurrentUserState] =
     useContext(CurrentUserContext);
 
-  console.log('currentUserState', currentUserState);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
