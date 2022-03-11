@@ -1,4 +1,9 @@
 import React, { useEffect } from 'react';
+import Chip from '@mui/material/Chip';
+import { Link } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 import useFetch from '../hooks/useFetch';
 import ErrorMessage from './errorMessage';
@@ -11,16 +16,25 @@ const PopularTags = () => {
     doFetch();
   }, [doFetch]);
 
+  if (isLoading || !response) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <ErrorMessage />;
+  }
+
   return (
-    <ul>
-      {isLoading && <Loading />}
-      {error && <ErrorMessage />}
-      {response && response.tags.map((tag) => {
-        return (
-          <div key={tag}>{tag}</div>
-        );
-      })}
-    </ul>
+    <Paper style={{ padding: '1rem' }}>
+      <Typography variant="h5" style={{ marginBottom: '0.5rem' }}>Popular Tags</Typography>
+      <Box>
+        {response.tags.map((tag) => (
+          <Link to={`/tag/${tag}`} key={tag} style={{ textDecoration: 'none' }}>
+            <Chip label={tag} style={{ margin: '0.3rem' }} />
+          </Link>
+        ))}
+      </Box>
+    </Paper>
   );
 };
 
