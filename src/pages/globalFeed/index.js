@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { useLocation, useMatch } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { stringify } from 'query-string';
 
 import Feed from '../../components/feed';
 import useFetch from '../../hooks/useFetch';
 import PaginationList from '../../components/paginationList';
-import PopularTags from '../../components/populartags';
+import PopularTags from '../../components/popularTags';
 import { getPaginator, limit } from '../../utils';
+import Loading from '../../components/loading';
+import ErrorMessage from '../../components/errorMessage';
 
 const GlobalFeed = () => {
   const location = useLocation();
@@ -31,8 +32,8 @@ const GlobalFeed = () => {
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          {isLoading && <Box>Loading...</Box>}
-          {error && <Box>Something went wrong!</Box>}
+          {isLoading && <Loading />}
+          {error && <ErrorMessage />}
           {!isLoading && response && (
             <>
               <Feed articles={response.articles} />
