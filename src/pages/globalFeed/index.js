@@ -11,6 +11,7 @@ import PopularTags from '../../components/popularTags';
 import { getPaginator, limit } from '../../utils';
 import Loading from '../../components/loading';
 import ErrorMessage from '../../components/errorMessage';
+import FeedToggler from '../../components/feedToggler';
 
 const GlobalFeed = () => {
   const location = useLocation();
@@ -32,6 +33,7 @@ const GlobalFeed = () => {
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={8}>
+          <FeedToggler />
           {isLoading && <Loading />}
           {error && <ErrorMessage />}
           {!isLoading && response && (
