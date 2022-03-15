@@ -4,14 +4,13 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useNavigate } from 'react-router-dom';
 
-function LinkTab(props) {
-  let navigate = useNavigate();
+const LinkTab = (props) => {
+  const navigate = useNavigate();
   return (
     <Tab
       component="a"
       onClick={(event) => {
         event.preventDefault();
-        console.log('props', props.label);
         navigate(props.href);
       }}
       {...props}
@@ -23,8 +22,6 @@ const FeedToggler = ({ tagName }) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
-    console.log('value', value);
-    console.log('new value', newValue);
     setValue(newValue);
   };
 

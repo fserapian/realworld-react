@@ -29,8 +29,8 @@ const PopularTags = () => {
       <Typography variant="h5" style={{ marginBottom: '0.5rem' }}>Popular Tags</Typography>
       <Box>
         {response.tags.map((tag) => (
-          <Link to={`/tag/${tag}`} key={tag} style={{ textDecoration: 'none' }}>
-            <Chip label={tag} style={{ margin: '0.3rem' }} />
+          <Link to={`/tags/${tag}`} key={tag} style={{ textDecoration: 'none' }}>
+            <Chip label={tag} style={{ margin: '0.3rem', cursor: 'pointer' }} />
           </Link>
         ))}
       </Box>
