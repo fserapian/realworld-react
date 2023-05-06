@@ -20,6 +20,9 @@ const Topbar = () => {
   const [currentUserState, setCurrentUserState] =
     useContext(CurrentUserContext);
 
+  console.log('topbar');
+  console.log('currentUserState', currentUserState.isLoggedIn);
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -76,7 +79,7 @@ const Topbar = () => {
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">Home</Typography>
               </MenuItem>
-              {currentUserState.isLoggedIn === false && (
+              {currentUserState.isLoggedIn == null && (
                 <div>
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">Sign in</Typography>
@@ -123,7 +126,7 @@ const Topbar = () => {
                 </Button>
               </Fragment>
             )}
-            {currentUserState.isLoggedIn === false && (
+            {!currentUserState.isLoggedIn && (
               <Fragment>
                 <Button
                   onClick={handleCloseNavMenu}

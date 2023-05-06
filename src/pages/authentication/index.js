@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -12,13 +12,13 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import { CurrentUserContext } from '../../contexts/currentUser';
 import BackendErrorMessages from './components/backendErrorMessages';
 
-const Authentication = ({ auth }) => {
-  const isLogin = auth === 'login';
-  const title = isLogin ? 'Sign in' : 'Sign up';
-  const titleText = isLogin ? 'Need an account?' : 'Have an account?';
-  const titleLink = isLogin ? '/register' : '/login';
+const Authentication = () => {
+  const location = useLocation();
+  const isLogin = location.pathname === '/login';
+  const pageTitle = isLogin ? 'Sign in' : 'Sign up';
+  const descText = isLogin ? 'Need an account?' : 'Have an account?';
+  const descLink = isLogin ? '/register' : '/login';
   const apiUrl = isLogin ? 'users/login' : 'users';
-
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,8 +26,7 @@ const Authentication = ({ auth }) => {
   const [{ isLoading, response, error }, doFetch] = useFetch(apiUrl);
   const [, setToken] = useLocalStorage('token');
   const [, setCurrentUserState] = useContext(CurrentUserContext);
-
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,10 +56,12 @@ const Authentication = ({ auth }) => {
     }));
   }, [response, setToken, setCurrentUserState]);
 
-  if (isSuccessfulSubmit) {
-    console.log('redirecting...');
-    navigate('/');
-  }
+  useEffect(() => {
+    if (isSuccessfulSubmit) {
+      console.log('redirecting...');
+      navigate('/');
+    }
+  }, [isSuccessfulSubmit, navigate])
 
   return (
     <Grid
@@ -71,10 +72,10 @@ const Authentication = ({ auth }) => {
     sx={{ mt: 4 }}
     >
       <Typography component="h2" variant="h2">
-        {title}
+        {pageTitle}
       </Typography>
       <Typography component="p" variant="p">
-        <Link to={titleLink} style={{ color: '#777', textDecoration: 'none' }}>{titleText}</Link>
+        <Link to={descLink} style={{ color: '#777', textDecoration: 'none' }}>{descText}</Link>
       </Typography>
 
       {error && <BackendErrorMessages errorMessages={error.message} />}
@@ -113,7 +114,7 @@ const Authentication = ({ auth }) => {
           type="submit"
           disabled={isLoading}
         >
-          {title}
+          {pageTitle}
         </Button>
       </Box>
     </Grid>

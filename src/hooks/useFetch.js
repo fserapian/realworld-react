@@ -4,7 +4,7 @@ import axios from 'axios';
 import useLocalStorage from './useLocalStorage';
 
 export default (url) => {
-  const baseUrl = 'http://localhost:3000';
+  const baseUrl = 'http://localhost:3000/api';
 
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
