@@ -63,6 +63,12 @@ const Authentication = () => {
     }
   }, [isSuccessfulSubmit, navigate])
 
+  const renderBackendErrors = (error) => {
+    if (error) {
+      return <BackendErrorMessages errorMessages={error.errors} />
+    }
+  };
+
   return (
     <Grid
     container
@@ -78,7 +84,7 @@ const Authentication = () => {
         <Link to={descLink} style={{ color: '#777', textDecoration: 'none' }}>{descText}</Link>
       </Typography>
 
-      {error && <BackendErrorMessages errorMessages={error.message} />}
+      {renderBackendErrors(error)}
 
       <Box component="form" sx={{ mt: 3, width: 500 }} onSubmit={handleSubmit}>
         <Stack spacing={2}>

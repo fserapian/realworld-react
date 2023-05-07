@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import useLocalStorage from './useLocalStorage';
 
-export default (url) => {
+const useFetch = (url) => {
   const baseUrl = 'http://localhost:3000/api';
 
   const [isLoading, setIsLoading] = useState(false);
@@ -24,8 +24,10 @@ export default (url) => {
 
     const requestOptions = {
       ...options,
-      headers: {
-        authorization: token ? `Bearer ${token}` : '',
+      ...{
+        headers: {
+          authorization: token ? `Bearer ${token}` : '',
+        }
       },
     };
 
@@ -42,3 +44,5 @@ export default (url) => {
 
   return [{ isLoading, response, error }, doFetch];
 };
+
+export default useFetch;
